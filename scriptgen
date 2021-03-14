@@ -21,19 +21,19 @@ else
 	COMMENT_SYMBOL=""
 fi
 
-echo Creating $SCRIPT_FILE
-
-touch $SCRIPT_FILE
-
-if [[ $COMMENT_SYMBOL != "" ]]; then
-	echo $COMMENT_SYMBOL $LANG_LOCATION >> $SCRIPT_FILE
-	echo $COMMENT_SYMBOL AHMZA >> $SCRIPT_FILE
-	echo $COMMENT_SYMBOL $DATE >> $SCRIPT_FILE
-	echo $COMMENT_SYMBOL This script ... >> $SCRIPT_FILE
+if [[ -f "$SCRIPT_FILE" ]]; then
+	echo $SCRIPT_FILE exists.
+	echo Opening it anyway with no appends
+	vim $SCRIPT_FILE
+else
+	touch $SCRIPT_FILE
+	chmod +x $SCRIPT_FILE
+	echo Script Created
+	if [[ $COMMENT_SYMBOL != "" ]]; then
+		echo $COMMENT_SYMBOL $LANG_LOCATION >> $SCRIPT_FILE
+		echo $COMMENT_SYMBOL AHMZA >> $SCRIPT_FILE
+		echo $COMMENT_SYMBOL $DATE >> $SCRIPT_FILE
+		echo $COMMENT_SYMBOL This script ... >> $SCRIPT_FILE
+	fi
+	vim $SCRIPT_FILE
 fi
-
-chmod +x $SCRIPT_FILE
-
-echo Script Created
-
-vim $SCRIPT_FILE
