@@ -1,0 +1,35 @@
+#!/bin/bash
+
+SCRIPT_DIR="$1"
+SCRIPT_FILE="$SCRIPT_DIR/$2"
+COMMENT_SYMBOL="#"
+
+if [ "$#" -ne 2 ]; then
+	SCRIPT_DIR="."
+	SCRIPT_FILE="$SCRIPT_DIR/$1"
+fi
+
+if [[ $SCRIPT_FILE == *.sh ]]; then
+	COMMENT_SYMBOL="#"
+elif [[ $SCRIPT_FILE == *.py ]]; then
+	COMMENT_SYMBOL="#"
+else
+	echo File type not recognised, No Comments will be added
+	COMMENT_SYMBOL=""
+fi
+
+echo Creating $SCRIPT_FILE
+
+touch $SCRIPT_FILE
+
+if [[ $COMMENT_SYMBOL != "" ]]; then
+	echo $COMMENT_SYMBOL AHMZA >> $SCRIPT_FILE
+	echo $COMMENT_SYMBOL $(date + "%d-%m-%y") >> $SCRIPT_FILE
+	echo $COMMENT_SYMBOL This script ... >> $SCRIPT_FILE
+fi
+
+chmod +x $SCRIPT_FILE
+
+echo Script Created
+
+vim $SCRIPT_FILE
