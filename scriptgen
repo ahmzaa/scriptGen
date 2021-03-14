@@ -3,6 +3,7 @@
 SCRIPT_DIR="$1"
 SCRIPT_FILE="$SCRIPT_DIR/$2"
 COMMENT_SYMBOL="#"
+DATE=$(date +%D)
 
 if [ "$#" -ne 2 ]; then
 	SCRIPT_DIR="."
@@ -11,8 +12,10 @@ fi
 
 if [[ $SCRIPT_FILE == *.sh ]]; then
 	COMMENT_SYMBOL="#"
+	LANG_LOCATION="!/bin/bash"
 elif [[ $SCRIPT_FILE == *.py ]]; then
 	COMMENT_SYMBOL="#"
+	LANG_LOCATION="!/usr/bin/python"
 else
 	echo File type not recognised, No Comments will be added
 	COMMENT_SYMBOL=""
@@ -23,8 +26,9 @@ echo Creating $SCRIPT_FILE
 touch $SCRIPT_FILE
 
 if [[ $COMMENT_SYMBOL != "" ]]; then
+	echo $COMMENT_SYMBOL $LANG_LOCATION >> $SCRIPT_FILE
 	echo $COMMENT_SYMBOL AHMZA >> $SCRIPT_FILE
-	echo $COMMENT_SYMBOL $(date + "%d-%m-%y") >> $SCRIPT_FILE
+	echo $COMMENT_SYMBOL $DATE >> $SCRIPT_FILE
 	echo $COMMENT_SYMBOL This script ... >> $SCRIPT_FILE
 fi
 
