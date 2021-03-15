@@ -1,24 +1,27 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
 
 SCRIPT_DIR="$1"
 SCRIPT_FILE="$SCRIPT_DIR/$2"
-COMMENT_SYMBOL="#"
 DATE=$(date +%D)
 
-if [ "$#" -ne 2 ]; then
-	SCRIPT_DIR="."
-	SCRIPT_FILE="$SCRIPT_DIR/$1"
+if [[ $# -ne 2 ]]; then
+	readonly SCRIPT_DIR="."
+	readonly SCRIPT_FILE="$SCRIPT_DIR/$1"
 fi
 
 if [[ $SCRIPT_FILE == *.sh ]]; then
-	COMMENT_SYMBOL="#"
-	LANG_LOCATION="!/bin/bash"
+	readonly COMMENT_SYMBOL="#"
+	readonly LANG_LOCATION="!/usr/bin/env bash"
 elif [[ $SCRIPT_FILE == *.py ]]; then
-	COMMENT_SYMBOL="#"
-	LANG_LOCATION="!/usr/bin/python"
+	readonly COMMENT_SYMBOL="#"
+	readonly LANG_LOCATION="!/usr/bin/python"
 else
-	echo File type not recognised, No Comments will be added
-	COMMENT_SYMBOL=""
+	echo File type not recognised, Assuming Bash Script setting Comment Symbol to "#"
+	readonly COMMENT_SYMBOL="#"
+	readonly LANG_LOCATION="!/usr/bin/env bash"
 fi
 
 if [[ -f "$SCRIPT_FILE" ]]; then
@@ -29,11 +32,9 @@ else
 	touch $SCRIPT_FILE
 	chmod +x $SCRIPT_FILE
 	echo Script Created
-	if [[ $COMMENT_SYMBOL != "" ]]; then
-		echo $COMMENT_SYMBOL $LANG_LOCATION >> $SCRIPT_FILE
-		echo $COMMENT_SYMBOL AHMZA >> $SCRIPT_FILE
-		echo $COMMENT_SYMBOL $DATE >> $SCRIPT_FILE
-		echo $COMMENT_SYMBOL This script ... >> $SCRIPT_FILE
-	fi
+	echo $COMMENT_SYMBOL$LANG_LOCATION >> $SCRIPT_FILE
+	echo $COMMENT_SYMBOL AHMZA >> $SCRIPT_FILE
+	echo $COMMENT_SYMBOL $DATE >> $SCRIPT_FILE
+	echo $COMMENT_SYMBOL This script ... >> $SCRIPT_FILE
 	vim $SCRIPT_FILE
 fi
