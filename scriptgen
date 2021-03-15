@@ -7,6 +7,11 @@ SCRIPT_DIR="$1"
 SCRIPT_FILE="$SCRIPT_DIR/$2"
 DATE=$(date +%D)
 
+if [[ $# == 0 ]]; then
+	echo Please provide a script dir/name
+	exit
+fi
+
 if [[ $# -ne 2 ]]; then
 	readonly SCRIPT_DIR="."
 	readonly SCRIPT_FILE="$SCRIPT_DIR/$1"
@@ -38,3 +43,5 @@ else
 	echo $COMMENT_SYMBOL This script ... >> $SCRIPT_FILE
 	vim $SCRIPT_FILE
 fi
+
+exit
